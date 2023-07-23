@@ -1,0 +1,48 @@
+.follows
+    padding-top: 32px
+.tabs
+    display: flex
+    justify-content: space-between
+    align-items: center
+    li
+        cursor: pointer
+        text-align: center
+        flex: 1
+        padding-bottom: 13px
+        font-size: 16px
+        color: var(--greyscale-500)
+        border-bottom: 2px solid var(--greyscale-light-bg)
+        transition: 0.2s ease color,0.2s ease border
+        &:hover
+            border-color: var(--greyscale-500)
+            transition: 0.2s ease color,0.2s ease border
+        &.active
+            color: var(--greyscale-white)
+            font-weight: 700
+            border-color: var(--greyscale-white)
+            
+.list
+    padding: 35px 16px
+    li
+        margin-bottom: 21px
+        display: flex
+        justify-content: space-between
+        align-items: center
+    .user
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        gap: 15px
+    .info
+        .name
+            color: var(--greyscale-white)
+            font-size: 16px
+        .id
+            color: var(--greyscale-white-50)
+            font-size: 14px
+    .avatar
+        width: 40px
+        height: 40px
+        overflow: hidden
+        border-radius: 5px
+        border: 1px solid var(--greyscale-50) 
