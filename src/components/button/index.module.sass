@@ -1,0 +1,33 @@
+.button
+    background: var(--greyscale-white)
+    color: var(--bg-default)        
+    border: 1px solid var(--greyscale-white)
+    transition: 0.2s ease background, 0.2s ease border,0.2s ease color
+    cursor: pointer
+    &:hover
+        background: var(--bg-default)        
+        color: var(--greyscale-white)
+        transition: 0.2s ease background, 0.2s ease border,0.2s ease color
+    &.normal
+        height: 40px
+        width: 335px
+        border-radius: 4px
+        font-weight: 900
+    &.outlined
+        padding: 0 10px
+        height: 30px
+        border-radius: 15px
+        font-size: 12px
+        border: 1px solid var(--greyscale-white)
+        background: var(--bg-default)        
+        color: var(--greyscale-white)
+        &:hover
+            background: var(--greyscale-white)
+            color: var(--bg-default)        
+            border: 1px solid var(--greyscale-white)
+    &.contained
+        padding: 0 10px
+        height: 30px
+        border-radius: 15px
+        font-size: 12px
+
