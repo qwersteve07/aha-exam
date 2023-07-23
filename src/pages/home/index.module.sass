@@ -1,0 +1,25 @@
+.home
+    display: grid
+    grid-template-columns: 1fr 375px
+    height: 100%
+.content
+    padding: 54px 130px
+    width: 100%
+    // max-width: 725px
+    height: 100%
+    display: flex 
+    justify-content: space-between
+    align-items: flex-start
+    flex-direction: column
+.params
+    width: 100%
+.follows
+    width: 100%
+    background: var(--greyscale-light-bg)
+    
+@media (max-width: 1439px)
+    .home
+        grid-template-columns: 1fr
+    .follows
+        display: none
+      
