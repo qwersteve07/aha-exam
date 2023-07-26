@@ -1,8 +1,18 @@
 .app
     display: grid
     grid-template-columns: 80px 1fr
-    height: 100vh
-    .navbar
-        background: var(--greyscale-light-bg)
+    height: 100dvh
     .main
         background: var(--greyscale-bg-dark)
+        overflow-y: auto
+        height: 100%
+        width: 100%
+
+@media (max-width: 768px)
+    .app
+        display: flex
+        justify-content: space-between
+        align-items: center
+        flex-direction: column
+        
+            
