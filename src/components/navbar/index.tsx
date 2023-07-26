@@ -1,65 +1,90 @@
-import { useEffect, useState } from "react";
-import styles from "./index.module.sass";
-import classnames from "classnames/bind";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import classnames from 'classnames/bind';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import styles from './index.module.sass';
+import iconArrow from '../../assets/action.svg'
+import { ReactComponent as IconNav } from '../../assets/nav.svg'
 const cx = classnames.bind(styles);
 
-const Icon = () => {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M8.34146 2.00006C7.51304 2.00006 6.84146 2.67163 6.84146 3.50006C6.84146 4.32849 7.51304 5.00006 8.34146 5.00006H18.7578V14.4234C18.7578 15.2518 19.4294 15.9234 20.2578 15.9234C21.0863 15.9234 21.7578 15.2518 21.7578 14.4234V4.50006C21.7578 3.11935 20.6386 2.00006 19.2578 2.00006H8.34146ZM4 6.9147H15.122C16.2265 6.9147 17.122 7.81013 17.122 8.9147V20.0366C17.122 21.1412 16.2265 22.0366 15.122 22.0366H4C2.89543 22.0366 2 21.1412 2 20.0366V8.9147C2 7.81013 2.89543 6.9147 4 6.9147Z"
-        fill="#6A6A6A"
-      />
-    </svg>
-  );
-};
-
-const navList = [
+export const navList = [
   {
-    id: "home",
-    name: "Home",
-    icon: <Icon />,
+    id: 'home',
+    name: 'Home',
+    icon: <IconNav />,
   },
   {
-    id: "tags",
-    name: "Tags",
-    icon: <Icon />,
+    id: 'tags',
+    name: 'Tags',
+    icon: <IconNav />,
   },
 ];
 
-type NavbarProps = {
-  className: string;
+
+function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(false)
+  console.log(location.pathname)
+  const isNotHome = location.pathname !== '/'
+
+  useEffect(() => {
+
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobile(false)
+      } else if (window.innerWidth <= 768) {
+        setIsMobile(true)
+      }
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  console.log(isMobile)
+
+  if (isMobile) {
+    return (
+      <>
+        {isNotHome &&
+          <nav className={`${styles.navbar} ${styles.mobile}`} onClick={() => navigate('/')}>
+            <img src={iconArrow} /> Home Page
+          </nav>
+        }
+        {!isNotHome && <CommonNav />}
+      </>
+    )
+  }
+
+  return <CommonNav />
 }
 
-const Navbar = ({ className }: NavbarProps) => {
+const CommonNav = () => {
+
   const [currentNav, setCurrentNav] = useState(navList[0].id);
   const [tagHint, setTagHint] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname.includes("tags")) {
+    if (location.pathname.includes('tags')) {
       setTagHint(false);
       setCurrentNav(navList[1].id);
     }
   }, []);
 
   return (
-    <nav className={`${className} ${styles.navbar}`}>
+    <nav className={styles.navbar}>
       <div className={styles.logo}>LOGO</div>
       <ul>
         {navList.map((item) => {
           const navClass = cx({
             active: currentNav === item.id,
-            hint: item.id === "tags" && tagHint,
+            hint: item.id === 'tags' && tagHint,
           });
 
           return (
@@ -67,12 +92,12 @@ const Navbar = ({ className }: NavbarProps) => {
               className={navClass}
               onClick={() => {
                 setCurrentNav(item.id);
-                if (item.id === "tags") setTagHint(false);
+                if (item.id === 'tags') setTagHint(false);
               }}
             >
-              <Link to={`/${item.id}`}>
+              <Link to={`/${item.id === 'home' ? '' : item.id}`}>
                 <div className={styles.icon}>
-                  <Icon />
+                  <IconNav />
                 </div>
                 <span className={styles.name}>{item.name}</span>
               </Link>
@@ -81,7 +106,7 @@ const Navbar = ({ className }: NavbarProps) => {
         })}
       </ul>
     </nav>
-  );
-};
+  )
+}
 
 export default Navbar;

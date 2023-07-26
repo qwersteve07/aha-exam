@@ -1,4 +1,7 @@
 .navbar
+    background: var(--greyscale-light-bg)
+    &.mobile
+        display: none
     .logo
         height: 80px
         font-size: 13px
@@ -44,3 +47,28 @@
                     fill: var(--greyscale-white)
             span
                 display: inherit
+
+@media (max-width: 768px)
+    .navbar
+        width: 100%
+        background: var(--greyscale-bg-dark)
+        
+        height: 70px
+        padding: 0 20px
+        color: var(--greyscale-white)
+        font-size: 24px
+        justify-content: flex-start
+        align-items: center
+        img
+            margin-right: 13px
+        .logo
+            height: 70px
+            display: inline-flex
+            justify-content: flex-start
+        ul
+            display: none
+        &.mobile
+            display: flex
+        
+
+        
