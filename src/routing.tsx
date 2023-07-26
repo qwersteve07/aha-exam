@@ -4,7 +4,6 @@ import RootPage from './pages/root';
 import HomePage from './pages/root/home';
 import SearchResultsPage from './pages/root/search-results';
 import TagsPage from './pages/tags';
-import api from './services/api-source';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +27,6 @@ const router = createBrowserRouter([
       {
         path: 'tags',
         element: <TagsPage />,
-        loader: async () => api.fetchTags(),
       },
     ],
   },
