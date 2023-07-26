@@ -8,27 +8,10 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
   const [current, setCurrent] = useState(0);
   const [result, setResult] = useState(3);
   const sliderRef = useRef<HTMLInputElement | null>(null);
-
   const dataList = [3, 6, 9, 12, 15, 50];
 
-  const dragStart = (e: any) => {
-    // remove the drag image
-    const img = new Image();
-    img.src = '';
-    img.style.display = 'none';
-    img.style.opacity = '0';
-    e.dataTransfer?.setDragImage(img, 0, 0);
-
-    setMoving(true);
-    setStart(e.pageX);
-  };
-
-  const drag = (e: any) => {
-    // remove the last drag event
-    if (e.pageX === 0 || !sliderRef.current) return;
-
-    const offset = e.pageX - start;
-
+  const actionMove = (offset: number) => {
+    if (!sliderRef.current) return;
     const maxWidth = sliderRef.current.clientWidth;
 
     // prevent the thumb goes out of the slider
@@ -39,9 +22,9 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
     } else {
       setMove(offset);
     }
-  };
+  }
 
-  const dragEnd = () => {
+  const actionEnd = () => {
     if (!sliderRef.current) return;
     const maxWidth = sliderRef.current.clientWidth;
     const sliderStepWidth = (maxWidth / 54) * 10;
@@ -86,6 +69,37 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
     setMoving(false);
     setStart(0);
     setMove(0);
+  }
+
+  const touchStart = (e: any) => {
+    setStart(e.touches[0].clientX)
+  }
+
+  const touchMove = (e: any) => {
+    if (!sliderRef.current) return;
+    const offset = e.touches[0].clientX - start;
+    actionMove(offset)
+  }
+
+
+  const dragStart = (e: any) => {
+    // remove the drag image
+    const img = new Image();
+    img.src = '';
+    img.style.display = 'none';
+    img.style.opacity = '0';
+    e.dataTransfer?.setDragImage(img, 0, 0);
+
+    setMoving(true);
+    setStart(e.pageX);
+  };
+
+  const dragMove = (e: any) => {
+    // remove the last drag event
+    if (e.pageX === 0 || !sliderRef.current) return;
+
+    const offset = e.pageX - start;
+    actionMove(offset)
   };
 
   return (
@@ -101,8 +115,11 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
           className={styles.thumb}
           draggable
           onDragStart={dragStart}
-          onDrag={drag}
-          onDragEnd={dragEnd}
+          onDrag={dragMove}
+          onDragEnd={actionEnd}
+          onTouchStart={touchStart}
+          onTouchMove={touchMove}
+          onTouchEnd={actionEnd}
           style={{
             transform: `translateX(${current + move}px)`,
             transition: moving ? 'none' : '0.2s ease transform ',
