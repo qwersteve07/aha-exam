@@ -1,7 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
-import Home from './pages/home';
-import Tags from './pages/tags';
+import RootPage from './pages/root';
+import HomePage from './pages/root/home';
+import SearchResultsPage from './pages/root/search-results';
+import TagsPage from './pages/tags';
+import api from './services/api-source';
 
 const router = createBrowserRouter([
   {
@@ -9,12 +12,23 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: 'home',
-        element: <Home />,
+        path: '',
+        element: <RootPage />,
+        children: [
+          {
+            path: '',
+            element: <HomePage />,
+          },
+          {
+            path: 'search',
+            element: <SearchResultsPage />,
+          }
+        ]
       },
       {
         path: 'tags',
-        element: <Tags />,
+        element: <TagsPage />,
+        loader: async () => api.fetchTags(),
       },
     ],
   },
