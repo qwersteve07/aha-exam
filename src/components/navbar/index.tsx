@@ -24,7 +24,6 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false)
-  console.log(location.pathname)
   const isNotHome = location.pathname !== '/'
 
   useEffect(() => {
@@ -45,8 +44,6 @@ function Navbar() {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-
-  console.log(isMobile)
 
   if (isMobile) {
     return (
@@ -89,6 +86,7 @@ const CommonNav = () => {
 
           return (
             <li
+              key={item.id}
               className={navClass}
               onClick={() => {
                 setCurrentNav(item.id);
