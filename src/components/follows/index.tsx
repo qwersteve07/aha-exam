@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './index.module.sass';
 import Button from '../button';
 import { UserType } from '../../types/user';
@@ -35,36 +35,58 @@ type FollowsProps = {
 
 function Follows({ className }: FollowsProps) {
   const [currentTab, setCurrentTab] = useState(tabs[0].id);
-  const [currentData, setCurrentData] = useState([]);
+  const [currentData, setCurrentData] = useState<UserType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false)
+  const followListRef = useRef<HTMLUListElement | null>(null)
+  const isLoading = useRef(false)
+
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true)
-      setCurrentData([])
-      let data;
-      if (currentTab === 'followers') {
-        data = await loadFollowers(currentPage);
-      } else {
-        data = await loadFollowings(currentPage)
-      }
-      setCurrentData(data.data);
-      setTotalPages(data.totalPages)
-      setLoading(false)
-    }
-
-    loadData()
+    setCurrentData([])
+    loadFollowData(currentPage)
   }, [currentTab]);
 
-  const loadFollowers = async (page: number) => {
-    return await api.fetchFollowers(page);
+  const loadFollowData = async (page: number) => {
+    setLoading(true)
+    let data: any;
+    if (currentTab === 'followers') {
+      data = await api.fetchFollowers(page);
+    } else {
+      data = await api.fetchFollowings(page);
+    }
+    setCurrentData(prev => [...prev, ...data.data]);
+    setCurrentPage(data.page)
+    setTotalPages(data.totalPages)
+    setLoading(false)
   }
 
-  const loadFollowings = async (page: number) => {
-    return await api.fetchFollowings(page);
-  }
+  useEffect(() => {
+    const fetchCoins = async () => {
+      if (!followListRef.current) return;
+
+      const listHeight = followListRef.current.scrollHeight
+      const offset = followListRef.current.scrollTop
+      const containerHeight = followListRef.current.clientHeight
+      let scrollToBottom = listHeight - offset === containerHeight
+      if (!isLoading.current && scrollToBottom && totalPages !== currentPage) {
+        isLoading.current = true;
+        loadFollowData(currentPage + 1)
+        isLoading.current = false
+      }
+    }
+
+    if (followListRef.current) {
+      followListRef.current.addEventListener('scroll', fetchCoins);
+    }
+
+    return () => {
+      if (followListRef.current) {
+        followListRef.current.removeEventListener('scroll', fetchCoins);
+      }
+    };
+  }, [currentPage, totalPages])
 
   return (
     <aside className={`${className} ${styles.follows}`}>
@@ -74,10 +96,11 @@ function Follows({ className }: FollowsProps) {
           setCurrentPage(1)
         }} tab={item} />)}
       </ul>
-      <ul className={styles.list}>
+      <ul className={styles.list} ref={followListRef}>
         {currentData.map((item: UserType) => <User user={item} />)}
         {loading && <Loading />}
       </ul>
+      {loading && <Loading />}
     </aside>
   );
 }
