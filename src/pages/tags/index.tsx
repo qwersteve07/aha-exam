@@ -1,46 +1,26 @@
+import { useLoaderData } from 'react-router-dom';
 import styles from './index.module.sass';
+import { TagType } from '../../types/tags';
+import PageTitle from '../../components/page-title';
 
-const mockTags = [
-  {
-    id: 'cool',
-    results: 350,
-  }, {
-    id: 'Beautiful',
-    count: 210,
-  }, {
-    id: 'Easy',
-    count: 190,
-  },
-  {
-    id: 'Summary',
-    count: 105,
-  }, {
-    id: 'Hot',
-    questions: 80,
-  }, {
-    id: 'Passage Specific',
-    questions: 50,
-  },
-];
+function TagsPage() {
+  const tagsList = useLoaderData() as TagType[];
 
-function Tags() {
   return (
     <section className={styles['tags-page']}>
-      <h2>Tags</h2>
+      <PageTitle className={styles.title}>Tags</PageTitle>
       <ul>
         {
-          mockTags.map((item) => (
-            <li className={styles.tag}>
+          tagsList.map((item: TagType) => (
+            <li className={styles.tag} key={item.id}>
               <div className={styles.cover}>
-                <div className={styles['tag-name']}>{item.id}</div>
+                <div className={styles['tag-name']}>{item.name}</div>
               </div>
-              <div className={styles.name}>{item.id}</div>
+              <div className={styles.name}>{item.name}</div>
               <div className={styles.count}>
-                {
-                  'results' in item
-                    ? `${item.results} Results`
-                    : `${item.questions} Questions`
-                }
+                {item.count}
+                {' '}
+                Results
               </div>
             </li>
           ))
@@ -50,4 +30,4 @@ function Tags() {
   );
 }
 
-export default Tags;
+export default TagsPage;

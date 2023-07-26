@@ -1,11 +1,11 @@
 .tags-page
     padding: 54px 255px
-    h2
+    &::-webkit-scrollbar
+        display: none
+    .title
         font-size: 30px
-        color: var(--greyscale-white)
-        font-weight: 400
-        margin-bottom: 24px
     ul
+        width: 100%
         display: grid
         grid-template-columns: repeat(5, minmax(150px, 1fr))
         gap: 36px 24px
@@ -36,3 +36,28 @@
         .count
             font-size: 11px
             color: var(--greyscale-400)
+
+@media (max-width: 1440px)
+    .tags-page
+        padding: 54px 130px
+
+@media (max-width: 1280px)
+    .tags-page
+        ul
+            grid-template-columns: repeat(4, minmax(150px, 1fr))
+
+@media (max-width: 1080px)
+    .tags-page
+        padding: 54px 100px
+        ul
+            grid-template-columns: repeat(3, minmax(150px, 1fr))
+
+@media (max-width: 768px)
+    .tags-page
+        padding: 20px 25px
+        h2
+            margin: 0 0 24px
+        ul
+            display: grid
+            grid-template-columns: repeat(2,calc(50% - 12px))
+            gap: 24px
