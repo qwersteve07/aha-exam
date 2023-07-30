@@ -1,4 +1,3 @@
-import styles from './index.module.sass';
 import { TagType } from '../../types/tags';
 import PageTitle from '../../components/page-title';
 import { useEffect, useState } from 'react';
@@ -43,7 +42,7 @@ function TagsPage() {
         {tagsList.length === 0 && <Loading />}
         {
           tagsList.map((item: TagType) => (
-            <li className={styles.tag} key={item.id}>
+            <li key={item.id}>
               <div className='bg-white-10 flex justify-start items-end px-[14px] py-[10px] mb-[10px] rounded-[10px] aspect-[1]'>
                 <div className='rounded-[8px] border-4 border-solid border-white px-[14px] py-[7px] text-2xl font-bold truncate text-white'>{item.name}</div>
               </div>
