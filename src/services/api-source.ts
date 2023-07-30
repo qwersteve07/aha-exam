@@ -15,10 +15,10 @@ class Api {
 
   async fetchSearchResults(
     { page = 1, pageSize = 3, keyword = '' }
-      : { page?: number, pageSize: number, keyword: string }
+      : { page?: number, pageSize: number, keyword: string },
   ): Promise<any> {
     return fetch(
-      `https://avl-frontend-exam.herokuapp.com/api/users/all?page=${page}&pageSize=${pageSize}&keyword=${keyword}`
+      `https://avl-frontend-exam.herokuapp.com/api/users/all?page=${page}&pageSize=${pageSize}&keyword=${keyword}`,
     ).then((response) => response.json());
   }
 

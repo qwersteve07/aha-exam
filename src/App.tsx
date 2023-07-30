@@ -3,8 +3,8 @@ import Navbar from './components/navbar';
 import Footer from './components/footer';
 
 function App() {
-  const location = useLocation()
-  const isHome = location.pathname === '/'
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   return (
     <div className="grid grid-cols-[80px_1fr] h-screen md:flex md:justify-between md:items-center md:flex-col">

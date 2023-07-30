@@ -21,7 +21,7 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
     } else {
       setMove(offset);
     }
-  }
+  };
 
   const actionEnd = () => {
     if (!sliderRef.current) return;
@@ -30,8 +30,8 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
     const currentPos = current + move;
     let index = 0;
 
-    for (let i = 0; i < 6; i++) {
-      if (i == 0) {
+    for (let i = 0; i < 6; i += 1) {
+      if (i === 0) {
         if (currentPos < sliderStepWidth / 2) {
           setCurrent(0);
           index = 0;
@@ -64,22 +64,21 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
       }
     }
     setResult(dataList[index]);
-    setPageSize(dataList[index])
+    setPageSize(dataList[index]);
     setMoving(false);
     setStart(0);
     setMove(0);
-  }
+  };
 
   const touchStart = (e: any) => {
-    setStart(e.touches[0].clientX)
-  }
+    setStart(e.touches[0].clientX);
+  };
 
   const touchMove = (e: any) => {
     if (!sliderRef.current) return;
     const offset = e.touches[0].clientX - start;
-    actionMove(offset)
-  }
-
+    actionMove(offset);
+  };
 
   const dragStart = (e: any) => {
     // remove the drag image
@@ -98,18 +97,18 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
     if (e.pageX === 0 || !sliderRef.current) return;
 
     const offset = e.pageX - start;
-    actionMove(offset)
+    actionMove(offset);
   };
 
   return (
     <div className="w-full pb-[30px] border-b-[1px] border-solid border-white-10 mb-[30px]">
-      <h3 className='text-2xl text-white font-normal mt-0 mx-0 mb-[16px]'># of Results per page</h3>
-      <div className='text-base text-white my-[20px] mx-0'>
-        <span className='font-bold text-5xl inline-block indent-[-5px]'>{result}</span>
+      <h3 className="text-2xl text-white font-normal mt-0 mx-0 mb-[16px]"># of Results per page</h3>
+      <div className="text-base text-white my-[20px] mx-0">
+        <span className="font-bold text-5xl inline-block indent-[-5px]">{result}</span>
         {' '}
         results
       </div>
-      <div className='w-full relative bg-white-30 h-[8px] rounded-[16px] mb-[25px]' ref={sliderRef}>
+      <div className="w-full relative bg-white-30 h-[8px] rounded-[16px] mb-[25px]" ref={sliderRef}>
         <div
           className="
             cursor-pointer
@@ -136,17 +135,17 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
           }}
         />
         <div
-          className='w-0 h-[8px] bg-gradient-to-r from-tutor-dark to-tutor-light rounded-[16px]'
+          className="w-0 h-[8px] bg-gradient-to-r from-tutor-dark to-tutor-light rounded-[16px]"
           style={{
             width: `${sliderRef.current?.clientWidth
-              ? (current + move) / sliderRef.current?.clientWidth * 100
+              ? (current + move) / (sliderRef.current?.clientWidth * 100)
               : 0}%`,
             transition: moving ? 'none' : '0.2s ease width ',
           }}
         />
-        <ul className='flex justify-between mt-[15px]'>
+        <ul className="flex justify-between mt-[15px]">
           {dataList.map((d) => {
-            const isActive = d === result
+            const isActive = d === result;
             return (
               <li
                 key={d}
@@ -159,9 +158,11 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
                   last-of-type:text-right
                   last-of-type:indent-[6px]
                   last-of-type:flex-[0.4_0_auto]
-                `}>
+                `}
+              >
                 {d}
-              </li>)
+              </li>
+            );
           })}
         </ul>
       </div>

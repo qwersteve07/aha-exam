@@ -21,8 +21,8 @@ const router = createBrowserRouter([
           {
             path: 'search',
             element: <SearchResultsPage />,
-          }
-        ]
+          },
+        ],
       },
       {
         path: 'tags',

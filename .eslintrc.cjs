@@ -12,7 +12,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh"],
   rules: {
-    "max-len": ["error", { code: 80 }],
+    "max-len": ["error", { code: 120 }],
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },

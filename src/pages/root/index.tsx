@@ -4,7 +4,7 @@ import Follows from '../../components/follows';
 function RootPage() {
   return (
     <section className="grid grid-cols-[1fr_375px] h-full large:grid-cols-1">
-      <div className='
+      <div className="
         px-[130px]
         py-[54px]
         w-full
@@ -19,7 +19,8 @@ function RootPage() {
         medium:px-[100px]
         md:px-[20px]
         md:py-[20px]
-      '>
+      "
+      >
         <Outlet />
       </div>
       <Follows />
