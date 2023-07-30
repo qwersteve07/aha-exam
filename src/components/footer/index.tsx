@@ -1,10 +1,7 @@
 import { navList } from "../navbar";
-import classnames from 'classnames/bind';
-import styles from './index.module.sass'
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as IconNav } from '../../assets/nav.svg'
-const cx = classnames.bind(styles);
 
 const Footer = () => {
 
@@ -20,25 +17,26 @@ const Footer = () => {
     }, []);
 
     return (
-        <footer className={styles.footer}>
-            <ul>
+        <footer className="hidden md:flex  w-full bg-black-80  justify-center items-center min-h-[66px] ">
+            <ul className="flex justify-center items-center gap-[50px]">
                 {navList.map((item) => {
-                    const navClass = cx({
-                        active: currentNav === item.id,
-                        hint: item.id === 'tags' && tagHint,
-                    });
+                    const isActive = currentNav === item.id
+                    const withHint = item.id === 'tags' && tagHint
+
+                    console.log(tagHint)
 
                     return (
                         <li
-                            className={navClass}
+                            className="relative"
                             onClick={() => {
                                 setCurrentNav(item.id);
+                                console.log(item.id)
                                 if (item.id === 'tags') setTagHint(false);
                             }}
                         >
-                            <Link to={`/${item.id === 'home' ? '' : item.id}`}>
-                                <div className={styles.icon}>
-                                    <IconNav />
+                            <Link to={`/${item.id === 'home' ? '' : item.id}`} className="w-full flex justify-center items-center">
+                                <div className={`relative inline-flex ${withHint && `before:absolute before:w-[6px] before:h-[6px] before:bg-blue before:rounded-full before:top-[-2px] before:right-[-6px]`}`}>
+                                    <IconNav className={isActive && `[&>path]:fill-white`} />
                                 </div>
                             </Link>
                         </li>

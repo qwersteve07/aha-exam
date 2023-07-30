@@ -1,4 +1,3 @@
-import styles from './index.module.sass';
 import iconArrow from '../../../assets/action.svg'
 import api from '../../../services/api-source';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -46,17 +45,17 @@ const SearchResultsPage = () => {
   }
 
   return (
-    <div className={styles['search-results-page']}>
-      <PageTitle className={styles.title}>
-        <img src={iconArrow} onClick={() => navigate(-1)} /> Results
+    <div className='w-full'>
+      <PageTitle className='text-[30px] relative'>
+        <img className='absolute left-[-50px] top-[10px] cursor-pointer' src={iconArrow} onClick={() => navigate(-1)} /> Results
       </PageTitle>
-      <ul>
+      <ul className='w-full grid grid-cols-[repeat(3,minmax(220px,1fr))] gap-x-[35px] gap-y-[30px] mb-[40px] md:block'>
         {
           results.map((item: SearchResultType) => (
-            <li className={styles.result} key={item.id}>
-              <div className={styles.cover} style={{ backgroundImage: `url(${mochiResultImage})` }} />
-              <div className={styles.name}>{item.name}</div>
-              <div className={styles.username}>
+            <li key={item.id} className='md:mb-[40px]'>
+              <div className='bg-cover mb-[12px] aspect-[1.5]' style={{ backgroundImage: `url(${mochiResultImage})` }} />
+              <div className='text-[15px] overflow-hidden whitespace-nowrap text-white'>{item.name}</div>
+              <div className='text-[11px] text-gray-40'>
                 by {item.username}
               </div>
             </li>

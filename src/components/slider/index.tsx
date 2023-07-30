@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import styles from './index.module.sass';
 
 function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
   const [start, setStart] = useState(0);
@@ -103,16 +102,27 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
   };
 
   return (
-    <div className={styles.container}>
-      <h3># of Results per page</h3>
-      <div className={styles.results}>
-        <span>{result}</span>
+    <div className="w-full pb-[30px] border-b-[1px] border-solid border-white-10 mb-[30px]">
+      <h3 className='text-2xl text-white font-normal mt-0 mx-0 mb-[16px]'># of Results per page</h3>
+      <div className='text-base text-white my-[20px] mx-0'>
+        <span className='font-bold text-5xl inline-block indent-[-5px]'>{result}</span>
         {' '}
         results
       </div>
-      <div className={styles.slider} ref={sliderRef}>
+      <div className='w-full relative bg-white-30 h-[8px] rounded-[16px] mb-[25px]' ref={sliderRef}>
         <div
-          className={styles.thumb}
+          className="
+            cursor-pointer
+            w-[20px]
+            h-[20px]
+            rounded-full
+          bg-black-dark
+            absolute
+            top-[-6px]
+            left-[-6px]
+            border-[6px]
+            border-solid
+          border-tutor-light"
           draggable
           onDragStart={dragStart}
           onDrag={dragMove}
@@ -126,7 +136,7 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
           }}
         />
         <div
-          className={styles.progress}
+          className='w-0 h-[8px] bg-gradient-to-r from-tutor-dark to-tutor-light rounded-[16px]'
           style={{
             width: `${sliderRef.current?.clientWidth
               ? (current + move) / sliderRef.current?.clientWidth * 100
@@ -134,12 +144,25 @@ function Slider({ setPageSize }: { setPageSize: (value: number) => void }) {
             transition: moving ? 'none' : '0.2s ease width ',
           }}
         />
-        <ul>
-          {dataList.map((d) => (
-            <li key={d} className={d === result ? styles.active : ''}>
-              {d}
-            </li>
-          ))}
+        <ul className='flex justify-between mt-[15px]'>
+          {dataList.map((d) => {
+            const isActive = d === result
+            return (
+              <li
+                key={d}
+                className={`
+                  text-sm
+                  flex-[1_0_auto]
+                  transition
+                  duration-200 
+                  ${isActive ? 'text-white' : 'text-white-50'}
+                  last-of-type:text-right
+                  last-of-type:indent-[6px]
+                  last-of-type:flex-[0.4_0_auto]
+                `}>
+                {d}
+              </li>)
+          })}
         </ul>
       </div>
     </div>

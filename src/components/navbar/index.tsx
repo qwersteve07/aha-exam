@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-import classnames from 'classnames/bind';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styles from './index.module.sass';
 import iconArrow from '../../assets/action.svg'
 import { ReactComponent as IconNav } from '../../assets/nav.svg'
-const cx = classnames.bind(styles);
 
 export const navList = [
   {
@@ -49,8 +46,8 @@ function Navbar() {
     return (
       <>
         {isNotHome &&
-          <nav className={`${styles.navbar} ${styles.mobile}`} onClick={() => navigate('/')}>
-            <img src={iconArrow} /> Home Page
+          <nav className="flex justify-start items-center w-full bg-black-dark h-[70px] px-[20px] py-0 text-white text-2xl" onClick={() => navigate('/')}>
+            <img className="mr-[13px]" src={iconArrow} /> Home Page
           </nav>
         }
         {!isNotHome && <CommonNav />}
@@ -75,35 +72,38 @@ const CommonNav = () => {
   }, []);
 
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.logo}>LOGO</div>
-      <ul>
+    <nav className="bg-black-light md:w-full md:bg-black-dark md:h-[70px] md:px-[20px] md:py-0 md:text-white md:text-2xl md:flex md:justify-start md:items-center">
+      <div className="h-[80px] text-[13px] font-bold flex items-center justify-center md:h-[70px] md:inline-flex md:justify-start"
+        style={{
+          'background': '-webkit-linear-gradient(left,#FF5C01,#FFD05D)',
+          '-webkit-background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent'
+        }}>LOGO</div>
+      <ul className="md:hidden">
         {navList.map((item) => {
-          const navClass = cx({
-            active: currentNav === item.id,
-            hint: item.id === 'tags' && tagHint,
-          });
+          const isActive = currentNav === item.id
+          const withHint = item.id === 'tags' && tagHint
 
           return (
             <li
               key={item.id}
-              className={navClass}
+              className={'mb-[40px] relative text-center cursor-pointer'}
               onClick={() => {
                 setCurrentNav(item.id);
                 if (item.id === 'tags') setTagHint(false);
               }}
             >
-              <Link to={`/${item.id === 'home' ? '' : item.id}`}>
-                <div className={styles.icon}>
-                  <IconNav />
+              <Link to={`/${item.id === 'home' ? '' : item.id}`} className='w-full block'>
+                <div className={`relative inline-flex ${withHint && `before:absolute before:w-[6px] before:h-[6px] before:bg-blue before:rounded-full before:top-[-2px] before:right-[-6px]`}`}>
+                  <IconNav className={isActive && `[&>path]:fill-white`} />
                 </div>
-                <span className={styles.name}>{item.name}</span>
+                <span className={`absolute bottom-[-15px] text-xs text-white w-full text-center ${isActive ? 'block' : 'hidden'}`}>{item.name}</span>
               </Link>
             </li>
           );
         })}
       </ul>
-    </nav>
+    </nav >
   )
 }
 

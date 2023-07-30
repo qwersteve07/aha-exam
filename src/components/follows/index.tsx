@@ -28,12 +28,7 @@ export type FollowDataProps = {
   }
 }
 
-type FollowsProps = {
-  className: string;
-  // data: FollowDataProps
-}
-
-function Follows({ className }: FollowsProps) {
+function Follows() {
   const [currentTab, setCurrentTab] = useState(tabs[0].id);
   const [currentData, setCurrentData] = useState<UserType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,14 +84,21 @@ function Follows({ className }: FollowsProps) {
   }, [currentPage, totalPages])
 
   return (
-    <aside className={`${className} ${styles.follows}`}>
-      <ul className={styles.tabs}>
+    <aside className='w-full bg-black-light pt-[32px] large:hidden' >
+      <ul className="flex justify-between items-center">
         {tabs.map((item) => <Tab currentTab={currentTab} setCurrentTab={(t) => {
           setCurrentTab(t)
           setCurrentPage(1)
         }} tab={item} />)}
       </ul>
-      <ul className={styles.list} ref={followListRef}>
+      <ul className='
+        h-[calc(100dvh-71px)]
+        overflow-y-auto
+        px-[16px]
+        py-[35px]
+        no-scrollbar
+        '
+        ref={followListRef}>
         {currentData.map((item: UserType) => <User user={item} />)}
         {loading && <Loading />}
       </ul>
@@ -111,9 +113,22 @@ const Tab = ({ currentTab, setCurrentTab, tab }
     setCurrentTab: (t: string) => void,
     tab: { id: string, name: string }
   }) => {
+  const isActive = tab.id === currentTab
   return (
     <li
-      className={tab.id === currentTab ? styles.active : ''}
+      className={`
+      cursor-pointer
+      text-center
+      flex-1
+      pb-[13px]
+      text-base
+      border-b-2
+      border-solid
+      transition duration-200
+    hover:border-gray-80
+      hover:transition
+      hover:duration-200
+      ${isActive ? 'text-white font-bold border-white' : 'text-gray-80 border-black-dark'}`}
       onClick={() => setCurrentTab(tab.id)}
     >
       {tab.name}
@@ -123,12 +138,12 @@ const Tab = ({ currentTab, setCurrentTab, tab }
 
 const User = ({ user }: { user: UserType }) => {
   return (
-    <li>
-      <div className={styles.user}>
-        <div className={styles.avatar}><img src={mochiAvaterImage} /></div>
-        <div className={styles.info}>
-          <div className={styles.name}>{user.name}</div>
-          <div className={styles.id}>
+    <li className='mb-[21px] flex justify-between items-center'>
+      <div className="flex justify-start items-center gap-[15px]">
+        <div className='w-[40px] h-[40px] min-w-[40px] overflow-hidden rounded-[5px] border-[1px] border-solid border-gray-50'><img className='w-full grayscale-[40%]' src={mochiAvaterImage} /></div>
+        <div>
+          <div className='text-white text-base'>{user.name}</div>
+          <div className='text-white-50 text-sm'>
             @
             {user.id}
           </div>
