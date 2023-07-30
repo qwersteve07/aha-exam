@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import iconArrow from '../../assets/action.svg';
 import { ReactComponent as IconNav } from '../../assets/nav.svg';
@@ -28,6 +28,12 @@ function CommonNav() {
     }
   }, []);
 
+  const style: CSSProperties = {
+    background: '-webkit-linear-gradient(left,#FF5C01,#FFD05D)',
+    webkitBackgroundClip: "text",
+    webkitTextFillColor: "transparent"
+  };
+
   return (
     <nav className="
     bg-black-light
@@ -54,11 +60,7 @@ function CommonNav() {
           md:inline-flex
           md:justify-start
         "
-        style={{
-          background: '-webkit-linear-gradient(left,#FF5C01,#FFD05D)',
-          '-webkit-background-clip': 'text',
-          '-webkit-text-fill-color': 'transparent',
-        }}
+        style={style}
       >
         LOGO
       </div>
@@ -85,7 +87,7 @@ function CommonNav() {
                     'before:absolute before:w-[6px] before:h-[6px] before:bg-blue before:rounded-full before:top-[-2px] before:right-[-6px]')}
                 `}
                 >
-                  <IconNav className={isActive && '[&>path]:fill-white'} />
+                  <IconNav className={isActive ? '[&>path]:fill-white' : ''} />
                 </div>
                 <span className={`absolute bottom-[-15px] text-xs text-white w-full text-center ${isActive ? 'block' : 'hidden'}`}>{item.name}</span>
               </Link>
@@ -93,7 +95,7 @@ function CommonNav() {
           );
         })}
       </ul>
-    </nav>
+    </nav >
   );
 }
 

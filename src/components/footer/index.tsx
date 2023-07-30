@@ -37,7 +37,7 @@ function Footer() {
                   ${withHint
                   && 'before:absolute before:w-[6px] before:h-[6px] before:bg-blue before:rounded-full before:top-[-2px] before:right-[-6px]'}`
                 }>
-                  <IconNav className={isActive && '[&>path]:fill-white'} />
+                  <IconNav className={isActive ? '[&>path]:fill-white' : ''} />
                 </div>
               </Link>
             </li>
